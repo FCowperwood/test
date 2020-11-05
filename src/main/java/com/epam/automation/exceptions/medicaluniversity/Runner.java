@@ -8,8 +8,6 @@ import com.epam.automation.exceptions.medicaluniversity.university.Student;
 import com.epam.automation.exceptions.medicaluniversity.university.University;
 import com.epam.automation.exceptions.medicaluniversity.utility.Utility;
 
-import javax.swing.text.Utilities;
-import java.io.*;
 import java.util.*;
 
 /*В университете есть несколько факультетов, в которых учатся студенты, объединенные в группы.
@@ -31,14 +29,16 @@ public class Runner {
     public static void main(String[] args) {
         Utility util = new Utility();
 
-        List<Student> studentList = new ArrayList<>();
+        List<Student> studentList = null;
+        studentList = new ArrayList<>();
         studentList.add(new Student(01, "Surgical", "S1", "Andrei", "Vasileuski", "Olegovich", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Andrei", "Vasileuski", "Olegovich")));
         studentList.add( new Student(02, "Therapy", "T1", "Petr", "Gaiduk", "Olegovich", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Petr", "Gaiduk", "Olegovich")));
         studentList.add(new Student(03, "Pediatric", "P2", "Elena", "Ostapenko", "Petrovna", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Elena", "Ostapenko", "Petrovna")));
         studentList.add(new Student(04, "Therapy", "T1", "Oleg", "Smirnov", "Leonidovich", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Oleg", "Smirnov", "Leonidovich")));
         studentList.add(new Student(05, "Therapy", "T1", "Svetlana", "Svirid", "Olegovna", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Svetlana", "Svirid", "Olegovna")));
 
-        List<Group> groupList = new ArrayList<>();
+        List<Group> groupList = null;
+        groupList = new ArrayList<>();
         groupList.add(new Group("S1", "Surgical"));
         groupList.add(new Group("S2", "Surgical"));
         groupList.add(new Group("T1", "Therapy"));
@@ -48,7 +48,8 @@ public class Runner {
         groupList.add(new Group("D1", "Dentistry"));
         groupList.add(new Group("D2", "Dentistry"));
 
-        List<Faculty> facultyList = new ArrayList<>();
+        List<Faculty> facultyList = null;
+        facultyList = new ArrayList<>();
         facultyList.add(new Faculty("Surgical"));
         facultyList.add(new Faculty("Therapy"));
         facultyList.add(new Faculty("Pediatric"));
@@ -56,10 +57,13 @@ public class Runner {
 
         University university = new University("Med-university", "Pavlov P.I", facultyList);
 
-        university.addStudentsToGroup(groupList, studentList);
-        university.addGroupsToFaculty(facultyList, groupList);
-
-
+        try {
+            university.addStudentsToGroup(groupList, studentList);
+            university.addGroupsToFaculty(facultyList, groupList);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
 
         // Посчитать средний балл по всем предметам студента.
         OptionalDouble averageMarkOfStudent = university.getAverageMarkOfStudent(studentList.get(0));
@@ -72,7 +76,6 @@ public class Runner {
         // Посчитать средний балл по предмету для всего университета
         OptionalDouble averageMarkInAllUniversity = university.getAverageMarkInSubjectForAllUniversity("Neurology");
         System.out.println(averageMarkInAllUniversity.isPresent() ? averageMarkInAllUniversity.getAsDouble() : null);
-
 
     }
 

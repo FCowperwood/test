@@ -2,13 +2,11 @@ package com.epam.automation.exceptions.medicaluniversity.utility;
 
 import com.epam.automation.exceptions.medicaluniversity.exceptions.NoSuchSubjectsException;
 import com.epam.automation.exceptions.medicaluniversity.exceptions.OutOfValueException;
-import com.epam.automation.exceptions.medicaluniversity.university.Student;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,11 +46,5 @@ public class Utility {
 
         return subjectsAndMarks;
     }
-
-//    public static Map<String, Integer> readSubjectsAndMarksFromFile(Student student) {
-//
-//
-//        return null;
-//    }
 
 }
