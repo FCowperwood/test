@@ -1,0 +1,8 @@
+Anatomy: 6
+Physiology: 8
+Psychiatry: 9
+Neurology: 5
+Microbiology: 10
+Pediatrics: 7
+Philosophy: 8
+Maths: 9

@@ -1,0 +1,7 @@
+Name: cucumber
+Protein: 0.8
+Fat: 0.1
+Carbohydrate: 2.5
+Calorie: 14
+Weight: 150
+Silicium: 53

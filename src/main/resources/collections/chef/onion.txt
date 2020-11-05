@@ -1,0 +1,7 @@
+Name: onion
+Protein: 1.5
+Fat: 0.3
+Carbohydrate: 12.4
+Calorie: 61
+Weight: 100
+Kalium: 47
