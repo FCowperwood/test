@@ -1,12 +1,13 @@
 package com.epam.automation.exceptions.medicaluniversity;
 
-import com.epam.automation.exceptions.medicaluniversity.exceptions.NoSuchSubjectsException;
-import com.epam.automation.exceptions.medicaluniversity.exceptions.OutOfValueException;
+import com.epam.automation.exceptions.medicaluniversity.exceptions.NoFacultiesException;
+import com.epam.automation.exceptions.medicaluniversity.exceptions.NoGroupsException;
+import com.epam.automation.exceptions.medicaluniversity.exceptions.NoStudentsException;
 import com.epam.automation.exceptions.medicaluniversity.university.Faculty;
 import com.epam.automation.exceptions.medicaluniversity.university.Group;
 import com.epam.automation.exceptions.medicaluniversity.university.Student;
 import com.epam.automation.exceptions.medicaluniversity.university.University;
-import com.epam.automation.exceptions.medicaluniversity.utility.Utility;
+import com.epam.automation.exceptions.medicaluniversity.utility.ReadDataUtility;
 
 import java.util.*;
 
@@ -27,15 +28,15 @@ import java.util.*;
 
 public class Runner {
     public static void main(String[] args) {
-        Utility util = new Utility();
+        ReadDataUtility readData = new ReadDataUtility();
 
         List<Student> studentList = null;
         studentList = new ArrayList<>();
-        studentList.add(new Student(01, "Surgical", "S1", "Andrei", "Vasileuski", "Olegovich", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Andrei", "Vasileuski", "Olegovich")));
-        studentList.add( new Student(02, "Therapy", "T1", "Petr", "Gaiduk", "Olegovich", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Petr", "Gaiduk", "Olegovich")));
-        studentList.add(new Student(03, "Pediatric", "P2", "Elena", "Ostapenko", "Petrovna", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Elena", "Ostapenko", "Petrovna")));
-        studentList.add(new Student(04, "Therapy", "T1", "Oleg", "Smirnov", "Leonidovich", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Oleg", "Smirnov", "Leonidovich")));
-        studentList.add(new Student(05, "Therapy", "T1", "Svetlana", "Svirid", "Olegovna", "Nemiga 1-25", util.readSubjectsAndMarksFromFile("Svetlana", "Svirid", "Olegovna")));
+        studentList.add(new Student(01, "Surgical", "S1", "Andrei", "Vasileuski", "Olegovich", "Nemiga 1-25", readData.readSubjectsAndMarksFromFile("Andrei", "Vasileuski", "Olegovich")));
+        studentList.add( new Student(02, "Therapy", "T1", "Petr", "Gaiduk", "Olegovich", "Nemiga 1-25", readData.readSubjectsAndMarksFromFile("Petr", "Gaiduk", "Olegovich")));
+        studentList.add(new Student(03, "Pediatric", "P2", "Elena", "Ostapenko", "Petrovna", "Nemiga 1-25", readData.readSubjectsAndMarksFromFile("Elena", "Ostapenko", "Petrovna")));
+        studentList.add(new Student(04, "Therapy", "T1", "Oleg", "Smirnov", "Leonidovich", "Nemiga 1-25", readData.readSubjectsAndMarksFromFile("Oleg", "Smirnov", "Leonidovich")));
+        studentList.add(new Student(05, "Therapy", "T1", "Svetlana", "Svirid", "Olegovna", "Nemiga 1-25", readData.readSubjectsAndMarksFromFile("Svetlana", "Svirid", "Olegovna")));
 
         List<Group> groupList = null;
         groupList = new ArrayList<>();
@@ -60,9 +61,12 @@ public class Runner {
         try {
             university.addStudentsToGroup(groupList, studentList);
             university.addGroupsToFaculty(facultyList, groupList);
-        } catch (NullPointerException e) {
+        } catch (NoFacultiesException e) {
             e.printStackTrace();
-            System.err.println(e.getMessage());
+        } catch (NoGroupsException e) {
+            e.printStackTrace();
+        } catch (NoStudentsException e) {
+            e.printStackTrace();
         }
 
         // Посчитать средний балл по всем предметам студента.

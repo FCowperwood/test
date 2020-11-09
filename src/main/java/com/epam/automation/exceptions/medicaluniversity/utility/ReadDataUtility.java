@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Utility {
+public class ReadDataUtility {
 
     public  Map<String, Integer> readSubjectsAndMarksFromFile(String name, String lastName, String fathersName) {
         String fullName = (lastName + "-" + name + "-" + fathersName).toLowerCase();

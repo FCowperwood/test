@@ -20,9 +20,9 @@ public class Solution {
     public static void main(String[] args) {
         List<String> valuesFromFile;
         int[] numberOfFilesAndFolders;
-        String path = args[0];
+        //String path = args[0];
         //String path = "src/main/resources/io/maintask/Amon Amarth.txt";
-        //String path = "f:/";
+        String path = "c:/";
 
         if (path.contains(".txt")) {
 

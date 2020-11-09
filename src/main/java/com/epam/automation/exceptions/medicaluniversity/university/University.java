@@ -1,5 +1,9 @@
 package com.epam.automation.exceptions.medicaluniversity.university;
 
+import com.epam.automation.exceptions.medicaluniversity.exceptions.NoFacultiesException;
+import com.epam.automation.exceptions.medicaluniversity.exceptions.NoGroupsException;
+import com.epam.automation.exceptions.medicaluniversity.exceptions.NoStudentsException;
+
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -15,9 +19,13 @@ public class University {
         this.faculties = faculties;
     }
 
-    public static void addStudentsToGroup(List<Group> groupList, List<Student> studentList) {
+    public static void addStudentsToGroup(List<Group> groupList, List<Student> studentList) throws NoGroupsException, NoStudentsException {
+        if (groupList == null) throw new NoGroupsException();
         for (int i = 0; i < groupList.size(); i++) {
+
+            if (studentList == null) throw new NoStudentsException();
             for (int j = 0; j < studentList.size(); j++) {
+
                 if (studentList.get(j).getGroup().equals(groupList.get(i).getName())) {
                     groupList.get(i).addStudent(studentList.get(j));
                 }
@@ -25,9 +33,13 @@ public class University {
         }
     }
 
-    public static void addGroupsToFaculty(List<Faculty> facultyList, List<Group> groupList) {
+    public static void addGroupsToFaculty(List<Faculty> facultyList, List<Group> groupList) throws NoFacultiesException, NoGroupsException {
+        if (facultyList == null) throw new NoFacultiesException();
         for (int i = 0; i < facultyList.size(); i++) {
+
+            if (groupList == null) throw new NoGroupsException();
             for (int j = 0; j < groupList.size(); j++) {
+
                 if (groupList.get(j).getFacultyName().equals(facultyList.get(i).getName())) {
                     facultyList.get(i).addGroup(groupList.get(j));
                 }
@@ -44,18 +56,22 @@ public class University {
 
         try {
 
-            if (faculties.isEmpty()) throw new NullPointerException("No faculties in the university");
+            if (faculties == null) throw new NoFacultiesException();
 
-            if ((faculties.stream().flatMap(f -> f.getGroups().stream()).count()) == 0) throw new NullPointerException("No groups in the faculty");
+            if ((faculties.stream().flatMap(f -> f.getGroups().stream()).count()) == 0) throw new NoGroupsException();
             Stream<Group> groupStream = faculties.stream().filter(f -> f.getName().equals(faculty)).flatMap(f -> f.getGroups().stream());
 
-            if (groupStream.flatMap(g -> g.getStudents().stream()).count() == 0) throw new NullPointerException("No students in the group");
+            if (groupStream.flatMap(g -> g.getStudents().stream()).count() == 0) throw new NoStudentsException();
             groupStream = faculties.stream().filter(f -> f.getName().equals(faculty)).flatMap(f -> f.getGroups().stream());
             Stream<Student> studentStream = groupStream.filter(g -> g.getName().equals(group)).flatMap(g -> g.getStudents().stream());
 
             return studentStream.mapToDouble(s -> s.getSubjects().get(subject)).average();
 
-        } catch (NullPointerException e) {
+        } catch (NoFacultiesException e) {
+            e.printStackTrace();
+        } catch (NoGroupsException e) {
+            e.printStackTrace();
+        } catch (NoStudentsException e) {
             e.printStackTrace();
         }
 
@@ -67,18 +83,22 @@ public class University {
 
         try {
 
-            if (faculties == null) throw new NullPointerException("No faculties in the university");
+            if (faculties == null) throw new NoFacultiesException();
 
-            if ((faculties.stream().flatMap(f -> f.getGroups().stream()).count()) == 0) throw new NullPointerException("No groups in the faculty");
+            if ((faculties.stream().flatMap(f -> f.getGroups().stream()).count()) == 0) throw new NoGroupsException();
             Stream<Group> groupStream = faculties.stream().flatMap(f -> f.getGroups().stream());
 
-            if (groupStream.flatMap(g -> g.getStudents().stream()).count() == 0) throw new NullPointerException("No students in the group");
+            if (groupStream.flatMap(g -> g.getStudents().stream()).count() == 0) throw new NoStudentsException();
             groupStream = faculties.stream().flatMap(f -> f.getGroups().stream());
             Stream<Student> studentStream = groupStream.flatMap(g -> g.getStudents().stream());
 
             return studentStream.mapToDouble(s -> s.getSubjects().get(subject)).average();
 
-        } catch (NullPointerException e) {
+        } catch (NoFacultiesException e) {
+            e.printStackTrace();
+        } catch (NoGroupsException e) {
+            e.printStackTrace();
+        } catch (NoStudentsException e) {
             e.printStackTrace();
         }
 
@@ -86,38 +106,6 @@ public class University {
 
     }
 
-//    public OptionalDouble getAverageMarkInSubjectForAllUniversity(String subject) {
-//        return faculties.stream()
-//                .flatMap(f -> {
-//                    try {
-//                        if (faculties.isEmpty()) throw new NullPointerException("No items in collection ERROR");
-//                        return f.getGroups().stream();
-//                    } catch (NullPointerException e) {
-//                        System.out.println(e);
-//                        return null;
-//                    }
-//
-//                })
-//                .flatMap(g -> {
-//                    try {
-//                        if (g == null) throw new NullPointerException();
-//                        return g.getStudents().stream();
-//                    } catch (NullPointerException e) {
-//                        e.printStackTrace();
-//                        return null;
-//                    }
-//
-//                })
-//                .mapToDouble(s -> {
-//                    try {
-//                        return s.getSubjects().get(subject);
-//                    } catch (NullPointerException e) {
-//                        System.out.println(e);
-//                        return 0;
-//                    }
-//
-//                }).average();
-//
-//    }
+
 
 }
